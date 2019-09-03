@@ -1,11 +1,6 @@
 # KuberCoins
 
-This repository contains resource definitions to run the DockerCoins demo app
+This repository contains resource definitions to build and run the DockerCoins demo app
 on Kubernetes.
 
-Here is the [source] of the DockerCoins app, and for more information, you can
-refer to the slides on [container.training].
-
-[source]: https://github.com/jpetazzo/container.training/tree/master/dockercoins
-[container.training]: http://container.training/
-
+/!\ **Warning**: as it is configured, skaffold run wuild work fine with minikube started (and the context minikube as the current one), but the registry need to be defined for the default build. /!\
