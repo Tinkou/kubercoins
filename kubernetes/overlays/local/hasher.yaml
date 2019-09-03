@@ -1,0 +1,10 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasher
+spec:
+  template:
+    spec:
+      containers:
+      - name: hasher
+        image: dockercoins/hasher
