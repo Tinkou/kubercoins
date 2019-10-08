@@ -1,19 +1,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  name: worker
   labels:
-    app: webui
-  name: webui
+    app: worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webui
+      app: worker
   template:
     metadata:
       labels:
-        app: webui
+        app: worker
     spec:
       containers:
-      - image: dockercoins/webui:v0.1
-        name: webui
+      - name: worker
+        image: dockercoins/worker:v0.1
