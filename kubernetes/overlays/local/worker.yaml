@@ -3,8 +3,4 @@ kind: Deployment
 metadata:
   name: worker
 spec:
-  template:
-    spec:
-      containers:
-      - name: worker
-        image: dockercoins/worker
+  replicas: 2
