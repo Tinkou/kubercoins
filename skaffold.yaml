@@ -16,6 +16,11 @@ deploy:
   kustomize:
     paths:
     - ./kubernetes/base
+portForward:
+- resourceType: Service
+  resourceName: webui
+  port: 80
+  localPort: 9000
 profiles:
 - name: local
   activation:
