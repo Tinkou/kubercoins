@@ -1,4 +1,4 @@
-apiVersion: skaffold/v1beta13
+apiVersion: skaffold/v2beta5
 kind: Config
 metadata:
   name: dockercoins
@@ -14,11 +14,13 @@ build:
     context: ./worker
 deploy:
   kustomize:
-    path: "./kubernetes/base"
+    paths:
+    - ./kubernetes/base
 profiles:
 - name: local
   activation:
   - kubeContext: minikube
   deploy:
     kustomize:
-      path: "./kubernetes/overlays/local"
+      paths:
+      - ./kubernetes/overlays/local
