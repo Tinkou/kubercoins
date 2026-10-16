@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: redis
+spec:
+  replicas: {{ .Values.redis.replicas }}
+  selector:
+    matchLabels:
+      {{- with .Values.stackLabel }}
+      stack: {{ . }}
+      {{- end }}
+      app: redis
+  template:
+    metadata:
+      labels:
+        {{- with .Values.stackLabel }}
+        stack: {{ . }}
+        {{- end }}
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: redis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+  selector:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: redis

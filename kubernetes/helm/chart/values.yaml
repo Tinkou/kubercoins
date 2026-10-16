@@ -1,0 +1,22 @@
+# Default values for helm.
+
+stackLabel: dockercoins
+
+hasher:
+  replicas: 1
+  revision: v0.1
+
+redis:
+  replicas: 1
+
+rng:
+  replicas: 1
+  revision: v0.1
+
+webui:
+  replicas: 1
+  revision: v0.1
+
+worker:
+  replicas: 1
+  revision: v0.1

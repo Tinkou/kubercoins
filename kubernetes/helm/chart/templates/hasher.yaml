@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hasher
+  labels:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: hasher
+spec:
+  replicas: {{ .Values.hasher.replicas }}
+  selector:
+    matchLabels:
+      stack: dockercoins
+      app: hasher
+  template:
+    metadata:
+      labels:
+        stack: dockercoins
+        app: hasher
+    spec:
+      containers:
+      - name: hasher
+        image: dockercoins/hasher:{{ .Values.hasher.revision }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hasher
+  labels:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: hasher
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: hasher
