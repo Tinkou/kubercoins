@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+  labels:
+    stack: dockercoins
+    app: worker
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      stack: dockercoins
+      app: worker
+  template:
+    metadata:
+      labels:
+        stack: dockercoins
+        app: worker
+    spec:
+      containers:
+      - name: worker
+        image: dockercoins/worker:v0.1

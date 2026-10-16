@@ -1,6 +1,6 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: worker
+  name: rng
 spec:
   replicas: 2

@@ -6,3 +6,7 @@ resources:
 - rng.yaml
 - worker.yaml
 - webui.yaml
+labels:
+- includeSelectors: true
+  pairs:
+    stack: dockercoins

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    stack: dockercoins
+    app: redis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      stack: dockercoins
+      app: redis
+  template:
+    metadata:
+      labels:
+        stack: dockercoins
+        app: redis
+    spec:
+      containers:
+      - name: redis
+        image: redis
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    stack: dockercoins
+    app: redis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+    protocol: TCP
+    targetPort: 6379
+  selector:
+    app: redis

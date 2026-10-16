@@ -1,34 +1,38 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: webui
+  name: rng
   labels:
-    app: webui
+    stack: dockercoins
+    app: rng
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: webui
+      stack: dockercoins
+      app: rng
   template:
     metadata:
       labels:
-        app: webui
+        stack: dockercoins
+        app: rng
     spec:
       containers:
-      - name: webui
-        image: dockercoins/webui:v0.1
+      - name: rng
+        image: dockercoins/rng:v0.1
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: webui
+  name: rng
   labels:
-    app: webui
+    stack: dockercoins
+    app: rng
 spec:
+  type: ClusterIP
   ports:
-  type: NodePort
   - port: 80
     protocol: TCP
     targetPort: 80
   selector:
-    app: webui
+    app: rng
