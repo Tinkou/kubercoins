@@ -3,20 +3,20 @@ kind: Deployment
 metadata:
   name: worker
   labels:
-    stack: dockercoins
+    stack: kubercoins
     app: worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      stack: dockercoins
+      stack: kubercoins
       app: worker
   template:
     metadata:
       labels:
-        stack: dockercoins
+        stack: kubercoins
         app: worker
     spec:
       containers:
       - name: worker
-        image: dockercoins/worker:v0.1
+        image: tinkou/worker:v0.1

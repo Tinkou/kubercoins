@@ -1,31 +1,41 @@
-apiVersion: skaffold/v2beta5
+apiVersion: skaffold/v4beta14
 kind: Config
 metadata:
-  name: dockercoins
+  name: kubercoins
+
 build:
   artifacts:
-  - image: dockercoins/hasher
-    context: ./hasher
-  - image: dockercoins/rng
-    context: ./rng
-  - image: dockercoins/webui
-    context: ./webui
-  - image: dockercoins/worker
-    context: ./worker
-deploy:
+    - image: tinkou/hasher
+      context: ./hasher
+    - image: tinkou/rng
+      context: ./rng
+    - image: tinkou/webui
+      context: ./webui
+    - image: tinkou/worker
+      context: ./worker
+  local:
+    push: false
+    useBuildkit: true
+
+manifests:
   kustomize:
     paths:
-    - ./kubernetes/base
+      - ./kubernetes/kustomize/local
+
 portForward:
-- resourceType: Service
-  resourceName: webui
-  port: 80
-  localPort: 9000
+  - resourceType: Service
+    resourceName: webui
+    port: 80
+    localPort: 9000
+
 profiles:
-- name: local
-  activation:
-  - kubeContext: minikube
-  deploy:
-    kustomize:
-      paths:
-      - ./kubernetes/overlays/local
+  - name: helm
+    deploy:
+      helm:
+        releases:
+          - name: kubercoins
+            chartPath: kubernetes/helm/chart
+            createNamespace: true
+            valuesFiles:
+              - kubernetes/helm/values/local.yaml
+

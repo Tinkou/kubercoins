@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: rng
-        image: dockercoins/rng:{{ .Values.rng.revision }}
+        image: tinkou/rng:{{ .Values.rng.revision }}
 ---
 apiVersion: v1
 kind: Service

@@ -25,7 +25,7 @@ spec:
     spec:
       containers:
       - name: webui
-        image: dockercoins/webui:{{ .Values.webui.revision }}
+        image: tinkou/webui:{{ .Values.webui.revision }}
 ---
 apiVersion: v1
 kind: Service

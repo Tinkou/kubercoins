@@ -1,6 +1,6 @@
 # Default values for helm.
 
-stackLabel: dockercoins
+stackLabel: kubercoins
 
 hasher:
   replicas: 1

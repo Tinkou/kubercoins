@@ -11,17 +11,21 @@ spec:
   replicas: {{ .Values.hasher.replicas }}
   selector:
     matchLabels:
-      stack: dockercoins
+      {{- with .Values.stackLabel }}
+      stack: {{ . }}
+      {{- end }}
       app: hasher
   template:
     metadata:
       labels:
-        stack: dockercoins
+        {{- with .Values.stackLabel }}
+        stack: {{ . }}
+        {{- end }}
         app: hasher
     spec:
       containers:
       - name: hasher
-        image: dockercoins/hasher:{{ .Values.hasher.revision }}
+        image: tinkou/hasher:{{ .Values.hasher.revision }}
 ---
 apiVersion: v1
 kind: Service
@@ -37,7 +41,7 @@ spec:
   ports:
   - port: 80
     protocol: TCP
-    targetPort: 80
+    targetPort: 8080
   selector:
     {{- with .Values.stackLabel }}
     stack: {{ . }}

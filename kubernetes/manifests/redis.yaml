@@ -3,18 +3,18 @@ kind: Deployment
 metadata:
   name: redis
   labels:
-    stack: dockercoins
+    stack: kubercoins
     app: redis
 spec:
   replicas: 1
   selector:
     matchLabels:
-      stack: dockercoins
+      stack: kubercoins
       app: redis
   template:
     metadata:
       labels:
-        stack: dockercoins
+        stack: kubercoins
         app: redis
     spec:
       containers:
@@ -26,7 +26,7 @@ kind: Service
 metadata:
   name: redis
   labels:
-    stack: dockercoins
+    stack: kubercoins
     app: redis
 spec:
   type: ClusterIP

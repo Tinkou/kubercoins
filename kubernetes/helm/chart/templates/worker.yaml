@@ -25,4 +25,4 @@ spec:
     spec:
       containers:
       - name: worker
-        image: dockercoins/worker:{{ .Values.worker.revision }}
+        image: tinkou/worker:{{ .Values.worker.revision }}

@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: worker
-        image: dockercoins/worker:v0.1
+        image: tinkou/worker:v0.1
