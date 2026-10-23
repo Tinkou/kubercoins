@@ -2,7 +2,7 @@ FROM python:3.15-alpine
 
 WORKDIR /app
 
-RUN pip install --no-cache-dir Flask
+RUN pip install --no-cache-dir Flask debugpy
 
 COPY rng.py .
 
