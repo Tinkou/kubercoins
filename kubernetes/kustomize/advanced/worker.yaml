@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker
+spec:
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  stack: kubercoins
+                  app: worker
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: worker
+        image: tinkou/worker:v1
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "25Mi"
+          limits:
+            cpu: "100m"
+            memory: "100Mi"
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/healthcheck.sh
+            - liveness
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - /usr/local/bin/healthcheck.sh
+            - readiness
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui
+spec:
+  template:
+    spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  stack: kubercoins
+                  app: webui
+              topologyKey: kubernetes.io/hostname
+      containers:
+      - name: hasher
+        image: tinkou/hasher:v1
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "25Mi"
+          limits:
+            cpu: "100m"
+            memory: "50Mi"

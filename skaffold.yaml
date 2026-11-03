@@ -38,4 +38,8 @@ profiles:
             createNamespace: true
             valuesFiles:
               - kubernetes/helm/values/local.yaml
-
+  - name: advanced
+    manifests:
+      kustomize:
+        paths:
+          - ./kubernetes/kustomize/advanced
