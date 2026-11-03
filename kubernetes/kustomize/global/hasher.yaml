@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hasher
-        image: tinkou/hasher:v0.1
+        image: tinkou/hasher:v1
 ---
 apiVersion: v1
 kind: Service
