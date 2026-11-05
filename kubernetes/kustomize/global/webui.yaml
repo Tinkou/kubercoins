@@ -17,6 +17,8 @@ spec:
       containers:
       - name: webui
         image: tinkou/webui:v1
+        ports:
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service
