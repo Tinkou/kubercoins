@@ -16,8 +16,8 @@ spec:
                   app: webui
               topologyKey: kubernetes.io/hostname
       containers:
-      - name: hasher
-        image: tinkou/hasher:v1
+      - name: webui
+        image: tinkou/webui:v1
         resources:
           requests:
             cpu: "50m"
