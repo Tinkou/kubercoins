@@ -1,6 +1,22 @@
 # KuberCoins
+Kubercoins is a training material based on [dockercoins](https://github.com/jpetazzo/container.training/tree/main/dockercoins).
 
-This repository contains resource definitions to build and run the DockerCoins demo app
-on Kubernetes.
+# Dockercoins
+Dockercoins is a simple application that emulate a bitcoin miner.<br>
+Worker ask a random bit string to rng. Then worker ask to hasher to hash this string. Finaly, worker register in redis that a string have been hashed.<br>
+Webui provide a web graphical interface that show the rate of processed strings.
 
-/!\ **Warning**: as it is configured, skaffold run wuild work fine with minikube started (and the context minikube as the current one), but the registry need to be defined for the default build. /!\
+![Architecture](docs/architecture.png)
+
+# How to use
+Skaffold is used to build/run.
+
+The application can be run with:
+```
+skaffold run
+```
+
+A debug version with proforward directly opened is available with:
+```
+skaffold debug
+```
