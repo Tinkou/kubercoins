@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: webui
-        image: tinkou/webui:v1
+        image: tinkou/webui:v2
         ports:
         - containerPort: 80
 ---

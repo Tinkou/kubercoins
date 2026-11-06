@@ -16,4 +16,4 @@ spec:
     spec:
       containers:
       - name: worker
-        image: tinkou/worker:v1
+        image: tinkou/worker:v2

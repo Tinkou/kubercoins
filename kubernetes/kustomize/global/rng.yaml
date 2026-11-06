@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: rng
-        image: tinkou/rng:v1
+        image: tinkou/rng:v2
         ports:
         - containerPort: 80
 ---
