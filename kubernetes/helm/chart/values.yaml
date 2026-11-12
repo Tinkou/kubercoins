@@ -4,19 +4,21 @@ stackLabel: kubercoins
 
 hasher:
   replicas: 1
-  revision: v0.1
+  revision: v2
 
 redis:
   replicas: 1
 
 rng:
   replicas: 1
-  revision: v0.1
+  revision: v2
 
 webui:
   replicas: 1
-  revision: v0.1
+  revision: v3
+  graphColor: purple
 
 worker:
   replicas: 1
-  revision: v0.1
+  revision: v2
+  rng-service-name: rng

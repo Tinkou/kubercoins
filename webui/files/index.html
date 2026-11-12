@@ -9,9 +9,6 @@
     width: 800px;
     height: 400px;
 }
-#tweet {
-    color: royalblue;
-}
 </style>
 <script src="jquery-1.11.3.min.js"></script>
 <script src="d3.min.js"></script>
@@ -26,6 +23,11 @@ String.prototype.format = function () {
 var series = [];
 var points = []
 var graph = null;
+var graphColor;  // must be set by /config
+
+$.getJSON('/config').done(function (cfg) {
+    graphColor = cfg.graphColor;
+});
 
 function refresh () {
     $.ajax({ url: "json" }).done(function (data) {
@@ -53,10 +55,6 @@ function refresh () {
         var msg = ("I'm attending a @docker orchestration workshop, "
                    + "and my #DockerCoins mining rig is crunching "
                    + speed.toFixed(1) + " hashes/second! W00T!");
-        $("#tweet").attr(
-            "href",
-            "https://twitter.com/intent/tweet?text="+encodeURIComponent(msg)
-        );
         if (graph == null) {
             graph = new Rickshaw.Graph({
                 renderer: "area",
@@ -67,7 +65,7 @@ function refresh () {
                 preserve: true,
                 series: [
                     { name: "Coins",
-                      color: "steelblue",
+                      color: graphColor,
                       data: points
                     }
                 ]

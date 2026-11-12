@@ -1,5 +1,5 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis
   labels:
@@ -8,6 +8,7 @@ metadata:
     {{- end }}
     app: redis
 spec:
+  serviceName: redis
   replicas: {{ .Values.redis.replicas }}
   selector:
     matchLabels:
@@ -23,9 +24,50 @@ spec:
         {{- end }}
         app: redis
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- with .Values.stackLabel }}
+                  stak: {{ . }}
+                  {{- end }}
+                  app: redis
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: redis
         image: redis
+        resources:
+          requests:
+            cpu: "10m"
+            memory: "10"
+          limits:
+            cpu: "100m"
+            memory: "50Mi"
+        ports:
+        - containerPort: 6379
+        livenessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 2
+          failureThreshold: 5
+        readinessProbe:
+          tcpSocket:
+            port: 6379
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 1
+          failureThreshold: 3
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

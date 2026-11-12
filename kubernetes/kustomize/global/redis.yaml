@@ -1,10 +1,11 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis
   labels:
     app: redis
 spec:
+  serviceName: redis
   replicas: 1
   selector:
     matchLabels:
@@ -19,6 +20,12 @@ spec:
         image: redis
         ports:
         - containerPort: 6379
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service

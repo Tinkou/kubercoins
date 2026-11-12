@@ -23,9 +23,51 @@ spec:
         {{- end }}
         app: hasher
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  app: hasher
+                  {{- with .Values.stackLabel }}
+                  stack: {{ . }}
+                  {{- end }}
+              topologyKey: kubernetes.io/hostname
+            weight: 100
       containers:
       - name: hasher
         image: tinkou/hasher:{{ .Values.hasher.revision }}
+        resources:
+          limits:
+            cpu: 100m
+            memory: 50Mi
+          requests:
+            cpu: 50m
+            memory: 25Mi
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          failureThreshold: 5
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          successThreshold: 1
+          timeoutSeconds: 2
+        readinessProbe:
+          failureThreshold: 3
+          httpGet:
+            path: /
+            port: 8080
+            scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
+          timeoutSeconds: 1
 ---
 apiVersion: v1
 kind: Service

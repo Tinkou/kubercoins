@@ -1,3 +1,11 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: worker
+type: Opaque
+stringData:
+  rng-service-name: {{ .Values.worker.rngServiceName | quote }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,6 +31,49 @@ spec:
         {{- end }}
         app: worker
     spec:
+      affinity:
+        podAntiAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 100
+            podAffinityTerm:
+              labelSelector:
+                matchLabels:
+                  {{- with .Values.stackLabel }}
+                  stack: {{ . }}
+                  {{- end }}
+                  app: worker
+              topologyKey: kubernetes.io/hostname
       containers:
       - name: worker
         image: tinkou/worker:{{ .Values.worker.revision }}
+        resources:
+          requests:
+            cpu: "50m"
+            memory: "25Mi"
+          limits:
+            cpu: "100m"
+            memory: "100Mi"
+        env:
+        - name: RNG_SERVICE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: worker
+              key: rng-service-name
+        livenessProbe:
+          exec:
+            command:
+            - /usr/local/bin/healthcheck.sh
+            - liveness
+          initialDelaySeconds: 20
+          periodSeconds: 20
+          timeoutSeconds: 10
+          failureThreshold: 3
+        readinessProbe:
+          exec:
+            command:
+            - /usr/local/bin/healthcheck.sh
+            - readiness
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          timeoutSeconds: 10
+          failureThreshold: 3

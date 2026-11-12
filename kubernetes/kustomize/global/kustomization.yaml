@@ -10,3 +10,12 @@ labels:
 - includeSelectors: true
   pairs:
     stack: kubercoins
+configMapGenerator:
+- envs:
+  - webui.env
+  name: webui
+secretGenerator:
+- envs:
+  - worker.secrets
+  name: worker
+  type: Opaque

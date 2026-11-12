@@ -4,6 +4,13 @@ import { createClient } from 'redis';
 
 let shuttingDown = false;
 
+const graphColorEnv = process.env.GRAPH_COLOR;
+if (!graphColorEnv) {
+  // Fail fast if required configuration is missing
+  throw new Error('GRAPH_COLOR environment variable must be set');
+}
+const graphColor = graphColorEnv;
+
 const client = await createClient({
   url: "redis://redis",
   socket: {
@@ -21,6 +28,10 @@ app.use(morgan('common'));
 
 app.get('/', function (req, res) {
   res.redirect('/index.html');
+});
+
+app.get('/config', (req, res) => {
+  res.json({ graphColor });
 });
 
 app.get('/json', async (req, res) => {

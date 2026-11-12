@@ -17,3 +17,9 @@ spec:
       containers:
       - name: worker
         image: tinkou/worker:v2
+        env:
+        - name: RNG_SERVICE_NAME
+          valueFrom:
+            secretKeyRef:
+              name: worker
+              key: rng-service-name

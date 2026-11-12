@@ -1,3 +1,15 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    {{- with .Values.stackLabel }}
+    stack: {{ . }}
+    {{- end }}
+    app: webui
+  name: webui
+data:
+  GRAPH_COLOR: {{ .Values.webui.graphColor }}
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -26,6 +38,14 @@ spec:
       containers:
       - name: webui
         image: tinkou/webui:{{ .Values.webui.revision }}
+        env:
+        - name: GRAPH_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: webui
+              key: GRAPH_COLOR
+        ports:
+        - containerPort: 80
 ---
 apiVersion: v1
 kind: Service

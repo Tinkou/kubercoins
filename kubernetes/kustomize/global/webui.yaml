@@ -16,7 +16,13 @@ spec:
     spec:
       containers:
       - name: webui
-        image: tinkou/webui:v2
+        image: tinkou/webui:v3
+        env:
+        - name: GRAPH_COLOR
+          valueFrom:
+            configMapKeyRef:
+              name: webui
+              key: GRAPH_COLOR
         ports:
         - containerPort: 80
 ---

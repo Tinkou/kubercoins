@@ -1,11 +1,12 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: redis
   labels:
     stack: kubercoins
     app: redis
 spec:
+  serviceName: redis
   replicas: 1
   selector:
     matchLabels:
@@ -20,6 +21,12 @@ spec:
       containers:
       - name: redis
         image: redis
+        volumeMounts:
+        - name: redis-data
+          mountPath: /data
+      volumes:
+      - name: redis-data
+        emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
