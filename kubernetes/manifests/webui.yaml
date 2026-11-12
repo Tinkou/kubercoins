@@ -1,38 +1,56 @@
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+data:
+  GRAPH_COLOR: purple
+kind: ConfigMap
 metadata:
-  name: webui
   labels:
     stack: kubercoins
-    app: webui
-spec:
-  replicas: 1
-  selector:
-    matchLabels:
-      stack: kubercoins
-      app: webui
-  template:
-    metadata:
-      labels:
-        stack: kubercoins
-        app: webui
-    spec:
-      containers:
-      - name: webui
-        image: tinkou/webui:v0.1
+  name: webui
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: webui
   labels:
-    stack: kubercoins
     app: webui
+    stack: kubercoins
 spec:
-  type: NodePort
   ports:
   - port: 80
     protocol: TCP
     targetPort: 80
   selector:
     app: webui
+    stack: kubercoins
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webui
+  labels:
+    app: webui
+    stack: kubercoins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: webui
+      stack: kubercoins
+  template:
+    metadata:
+      labels:
+        app: webui
+        stack: kubercoins
+    spec:
+      containers:
+      - env:
+        - name: GRAPH_COLOR
+          valueFrom:
+            configMapKeyRef:
+              key: GRAPH_COLOR
+              name: webui
+        image: tinkou/webui:v3
+        name: webui
+        ports:
+        - containerPort: 80

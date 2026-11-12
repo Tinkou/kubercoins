@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: hasher
-        image: tinkou/hasher:v1
+        image: tinkou/hasher:v2
         ports:
         - containerPort: 8080
 ---

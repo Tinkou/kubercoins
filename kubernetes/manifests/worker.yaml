@@ -1,22 +1,39 @@
+---
+apiVersion: v1
+data:
+  rng-service-name: cm5n
+kind: Secret
+metadata:
+  labels:
+    stack: kubercoins
+  name: worker-7k46cm4mgg
+type: Opaque
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: worker
   labels:
-    stack: kubercoins
     app: worker
+    stack: kubercoins
+  name: worker
 spec:
   replicas: 1
   selector:
     matchLabels:
-      stack: kubercoins
       app: worker
+      stack: kubercoins
   template:
     metadata:
       labels:
-        stack: kubercoins
         app: worker
+        stack: kubercoins
     spec:
       containers:
-      - name: worker
-        image: tinkou/worker:v0.1
+      - env:
+        - name: RNG_SERVICE_NAME
+          valueFrom:
+            secretKeyRef:
+              key: rng-service-name
+              name: worker-7k46cm4mgg
+        image: tinkou/worker:v2
+        name: worker
