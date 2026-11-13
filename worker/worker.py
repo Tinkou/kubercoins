@@ -17,12 +17,14 @@ else:
 
 redis = Redis("redis")
 
+RNG_SERVICE_NAME = os.environ.get("RNG_SERVICE_NAME", "rng")
+
 # Global flag used to request a graceful shutdown
 STOP = False
 
 
 def get_random_bytes():
-    r = requests.get("http://rng/32")
+    r = requests.get(f"http://{RNG_SERVICE_NAME}/32")
     return r.content
 
 
