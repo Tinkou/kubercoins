@@ -35,5 +35,5 @@ spec:
             secretKeyRef:
               key: rng-service-name
               name: worker-7k46cm4mgg
-        image: tinkou/worker:v2
+        image: tinkou/worker:v3
         name: worker

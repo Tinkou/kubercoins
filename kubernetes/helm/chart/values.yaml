@@ -20,5 +20,5 @@ webui:
 
 worker:
   replicas: 1
-  revision: v2
+  revision: v3
   rngServiceName: rng
